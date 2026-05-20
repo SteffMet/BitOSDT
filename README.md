@@ -1,6 +1,8 @@
-# BitOSDT 2.0
+# BitOSDT 2.0x
 
 BitOSDT 2.0 is a comprehensive Windows deployment solution written in Rust, designed as a modern replacement for OSDCloud. It provides automated Windows deployment with hardware detection, driver management, and WinPE generation.
+
+This project is now open-source. The original version faced a legal challenge from a large IT corporation over piracy concerns, which required significant adjustments to the codebase, licensing, and distribution model thus I decided to release it to the public. 
 
 ## Features
 
