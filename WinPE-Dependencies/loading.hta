@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>BitOSDT Boot</title>
+<HTA:APPLICATION
+    CAPTION="no"
+    BORDER="none"
+    SYSMENU="no"
+    SHOWINTASKBAR="no"
+    MAXIMIZEBUTTON="no"
+    MINIMIZEBUTTON="no"
+    WINDOWSTATE="maximize"
+    SCROLL="no"
+/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    #shell {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+    }
+
+    .boot-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 400px;
+        height: 260px;
+        margin-left: -200px;
+        margin-top: -160px;
+        text-align: center;
+    }
+
+    .logo {
+        font-size: 72px;
+        letter-spacing: 1px;
+        margin-bottom: 50px;
+        line-height: 1;
+    }
+    .logo-bit {
+        color: #ffffff;
+        font-weight: 800;
+    }
+    .logo-osdt {
+        color: #00A4EF;
+        font-weight: 300;
+    }
+
+    .spinner-wrap {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 20px auto;
+        position: relative;
+    }
+
+    .spinner-dot {
+        width: 6px;
+        height: 6px;
+        background-color: #00A4EF;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 19px;
+    }
+
+    .status {
+        font-size: 16px;
+        color: #cccccc;
+        letter-spacing: 0.5px;
+        font-weight: 400;
+    }
+
+    .website-url {
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        color: #555555;
+        letter-spacing: 1.5px;
+    }
+</style>
+</head>
+<body>
+    <div id="shell">
+        <div class="boot-container" id="bootContainer">
+            <div class="logo"><span class="logo-bit">Bit</span><span class="logo-osdt">OSDT</span></div>
+            <div class="spinner-wrap" id="spinnerWrap">
+                <div class="spinner-dot" id="spinnerDot"></div>
+            </div>
+            <div class="status" id="statusText">Initialising WinPE...</div>
+        </div>
+        <div class="website-url">bitosdt.com</div>
+    </div>
+
+    <script language="javascript">
+        // Force fullscreen positioning on load
+        window.resizeTo(screen.width + 20, screen.height + 20);
+        window.moveTo(-10, -10);
+
+        // Spinner animation using setInterval (IE/HTA compatible)
+        var angle = 0;
+        var dot = document.getElementById("spinnerDot");
+        var spinTimer = window.setInterval(function() {
+            angle = (angle + 6) % 360;
+            var rad = angle * Math.PI / 180;
+            var cx = 19 + Math.sin(rad) * 19;
+            var cy = 19 - Math.cos(rad) * 19;
+            dot.style.left = Math.round(cx) + "px";
+            dot.style.top = Math.round(cy) + "px";
+        }, 16);
+
+        // Boot stage messages
+        var bootStages = [
+            "Initialising WinPE...",
+            "Loading drivers...",
+            "Configuring network...",
+            "Starting deployment engine...",
+            "Preparing environment...",
+            "Almost ready...",
+            "Please wait..."
+        ];
+
+        var statusElement = document.getElementById("statusText");
+        var timings = [0, 1500, 3000, 4500, 6000, 7500, 9000];
+
+        for (var i = 0; i < timings.length; i++) {
+            (function(idx) {
+                window.setTimeout(function() {
+                    statusElement.innerText = bootStages[idx];
+                }, timings[idx]);
+            })(i);
+        }
+
+        // Auto-close after 11 seconds
+        window.setTimeout(function() {
+            window.clearInterval(spinTimer);
+            window.close();
+        }, 11000);
+    </script>
+</body>
+</html>

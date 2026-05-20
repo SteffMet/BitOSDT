@@ -1,0 +1,7 @@
+# Rust/Cargo build artifacts
+cargo/target/
+target/
+Cargo.lock
+
+# Dependencies
+node_modules/

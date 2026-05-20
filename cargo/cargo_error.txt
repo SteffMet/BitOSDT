@@ -1,0 +1,58 @@
+    Checking bitosdt v2.0.0 (C:\Projects\BitOSDT\cargo)
+error: unknown start of token: \
+    --> src\build\winpe_ui.rs:1035:46
+     |
+1035 |     return "[output truncated to latest logs]\n" + text.substring(text.length - maxRenderedLogChars);
+     |                                              ^
+
+error: prefix `n` is unknown
+    --> src\build\winpe_ui.rs:1035:47
+     |
+1035 |     return "[output truncated to latest logs]\n" + text.substring(text.length - maxRenderedLogChars);
+     |                                               ^ unknown prefix
+     |
+     = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+     |
+1035 |     return "[output truncated to latest logs]\n " + text.substring(text.length - maxRenderedLogChars);
+     |                                                +
+
+error: expected `,`, found `46d7ff`
+   --> src\build\winpe_ui.rs:964:27
+    |
+964 |       ctx.strokeStyle = "#46d7ff";
+    |                           ^^^^^^ expected `,`
+
+warning: unused import: `tracing::info`
+ --> src\deploy\hardware.rs:8:5
+  |
+8 | use tracing::info;
+  |     ^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `warn`
+ --> src\deploy\wim.rs:9:21
+  |
+9 | use tracing::{info, warn};
+  |                     ^^^^
+
+error[E0425]: cannot find function `generate_deploy_hta` in this scope
+    --> src\build\winpe_ui.rs:1124:22
+     |
+1124 |     fs::write(&path, generate_deploy_hta())?;
+     |                      ^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+warning: variable does not need to be mutable
+   --> src\build\usb_writer.rs:103:13
+    |
+103 |         let mut devices = Vec::new();
+    |             ----^^^^^^^
+    |             |
+    |             help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+For more information about this error, try `rustc --explain E0425`.
+warning: `bitosdt` (lib) generated 3 warnings
+error: could not compile `bitosdt` (lib) due to 4 previous errors; 3 warnings emitted

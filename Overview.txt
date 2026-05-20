@@ -1,0 +1,43 @@
+BitOSDT is a modern Windows deployment toolkit focused on the core application stack (everything except the Website and 2.0 documentation folders). It automates end-to-end imaging: detects hardware, pulls official Windows media, matches drivers, builds WinPE boot media, and deploys fully partitioned disks with the chosen edition. It can stage optional app installers, bundle WinPE add-ons like Chromium, and runs through both a CLI and a Tauri desktop UI so technicians can prepare, test, and deliver consistent Windows images from one workflow on Windows or Linux.
+
+Key capabilities
+- Image creation and management: build, duplicate, review, and delete image profiles; track status, OS, architecture, language, license, and ISO paths in the Image Manager.
+- Guided build wizard: step-by-step flow to choose Windows source (cloud or local), set OOBE behavior, create local users, optionally join domains or configure Autopilot, pick applications (Winget, Chocolatey, custom installers, scripts, payload copies), set Windows Update behavior, and choose outputs (Full ISO, Lightweight ISO, or both; simple or advanced delivery; PXE/export paths; driver staging; GUI inclusion).
+- Provisioning packages (experimental): create and manage OOBE provisioning profiles to seed settings during first boot.
+- Lightweight PXE host control: start/stop the embedded simple-mode PXE host from Image Manager to serve staged builds.
+- Settings control panel: set workspace/download paths, ADK location, theme, auto-sync cadences, and trigger OS/driver catalog syncs; view version and support links.
+- Dashboard overview: quick actions for new builds, image management, provisioning packages, and settings; live counts of images and packages, with current theme info.
+
+Intended purpose
+- Give deployment technicians a single, repeatable workspace to build Windows images with correct media, drivers, apps, and post-setup behavior.
+- Reduce manual WinPE and DISM scripting by packaging driver matching, media staging, and update application into guided screens.
+- Support both offline ISO creation and lightweight PXE delivery so the same profiles work across USB, ISO, and network boot scenarios.
+
+UI options at a glance
+- Dashboard: jump into the wizard, manage images, create/manage provisioning packages, and open settings; shows counts for images and provisioning profiles plus current theme.
+- Wizard steps:
+  - Windows Source: pick edition/build/language; choose cloud download or local source; provide path or URL.
+  - OOBE & Users: toggle OEM/OOBE screens, set computer name pattern, add local admin or standard users.
+  - Domain & Autopilot: enable domain join (domain, credentials, OU) or Intune Autopilot modes, including deployment mode and WhiteGlove toggle.
+  - Applications: choose Winget and Chocolatey packages, add custom installers (embedded file, network share, or direct path/URL), copy payload folders, and attach post-install scripts; set “continue on error” behavior.
+  - Windows Update: enable/disable updates and pick which categories (security, critical, drivers; exclude previews/optional) plus reboot policy.
+  - Output: select Full ISO, Lightweight ISO, or Both; pick delivery mode (simple or advanced), output path, PXE/export path, volume label, include GUI toggle, driver staging paths, and whether to apply drivers to offline Windows.
+- Image Manager: search, view details, duplicate, delete, or initiate build from existing image profiles; see status, OS info, license, size, and ISO path; includes a lightweight PXE host start/stop panel.
+- Provisioning Packages: create and manage OOBE provisioning profiles to reuse settings across devices (experimental flow).
+- Settings: set workspace/download/cache paths, ADK path, theme, auto-sync toggle and frequency, and manual sync buttons for OS and driver catalogs; quick links to docs/issues; shows current version.
+
+Common deployment-time issues to watch for (final release runtime)
+- Missing prerequisites: Windows ADK path incorrect or not installed; WinPE dependency packages absent, causing build or boot failures.
+- Media download problems: cloud source unreachable, checksum mismatch, or proxy blocking downloads.
+- Driver catalog sync failures: offline network, invalid URLs, or source auth errors leave driver matching incomplete.
+- Hardware/application staging: insufficient disk space on build/output path; network share for custom installers inaccessible or credentials rejected.
+- Build output conflicts: PXE host port already in use; staging folder empty when trying to serve lightweight builds.
+- Disk/firmware mismatches: target disk locked, BitLocker present, or UEFI/MBR mismatch causing partitioning errors during deploy.
+- Domain/Autopilot join errors: bad credentials, wrong tenant/OU info, or device lacks connectivity during first boot.
+- App installs/scripts: silent install arguments invalid, dependencies missing, or script set to stop on error when failures occur.
+- Windows Update step: corporate proxy blocks updates or optional/driver updates disabled when hardware needs them.
+
+Practical intent
+- Guide technicians through predictable, auditable image builds.
+- Minimize field failures by surfacing readiness checks in the wizard and providing quick remediation (paths, catalogs, drivers, PXE host).
+- Keep the same profiles usable for USB, ISO, and network deployments with consistent post-setup behavior.
